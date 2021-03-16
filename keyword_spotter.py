@@ -33,11 +33,15 @@ class KeywordSpotterType:
         return cls._instance
 
     def __init__(self) -> NoReturn:
-        """Initializes instances."""
+        """Initializes instance."""
         try:
             self._classifier = load_model(CLASSIFIER_PATH)
         except OSError:
             self._classifier = None
+
+    def update(self) -> NoReturn:
+        """Updates instance by reloading the classifier field."""
+        self.__init__()
 
     def predict(self, file: Union[str, PathLike]) -> str:
         """Predicts keyword spoken in file.
