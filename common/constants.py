@@ -16,3 +16,5 @@ NUM_SAMPLES = 16000
 
 DATA_DIR = Path('data', 'speech_commands', '0.0.2')
 CLASSIFIER_PATH = 'classifier.tf'
+
+API_URL = 'http://127.0.0.1:5000/keyword'
