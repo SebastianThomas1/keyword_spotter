@@ -1,7 +1,7 @@
 # Sebastian Thomas (datascience at sebastianthomas dot de)
 
 # type hints
-from typing import Union
+from typing import Union, BinaryIO
 
 # operating system
 from os import PathLike
@@ -23,11 +23,11 @@ from common.constants import COMMANDS, CATEGORIES, UNKNOWN_CATEGORY, \
     NUM_SAMPLES
 
 
-def to_mfcc(file_path: Union[str, PathLike], n_mfcc: int = 13,
+def to_mfcc(file: Union[str, PathLike, BinaryIO], n_mfcc: int = 13,
             hop_length: int = 512, n_fft: int = 2048) -> tf.Tensor:
     """Returns the mel frequency cepstral coefficients of the sound file at the
     given path, using the given parameters."""
-    signal, _ = librosa.load(file_path, sr=None)
+    signal, _ = librosa.load(file, sr=None)
     padded_signal = np.concatenate((signal,
                                     np.zeros(NUM_SAMPLES - len(signal))))
     mfcc = librosa.feature.mfcc(padded_signal, sr=NUM_SAMPLES, n_mfcc=n_mfcc,
@@ -36,12 +36,12 @@ def to_mfcc(file_path: Union[str, PathLike], n_mfcc: int = 13,
     return tf.convert_to_tensor(mfcc, dtype=tf.float64)
 
 
-def to_features(file_path: Union[str, PathLike], n_mfcc: int = 13,
+def to_features(file: Union[str, PathLike, BinaryIO], n_mfcc: int = 13,
                 hop_length: int = 512, n_fft: int = 2048) -> tf.Tensor:
     """Returns the features of the sound file at the given path."""
     # in order to feed the features into a convolutional neural network,
     # we increase the tensor rank by 1 (channel entry)
-    return tf.expand_dims(to_mfcc(file_path, n_mfcc=n_mfcc,
+    return tf.expand_dims(to_mfcc(file, n_mfcc=n_mfcc,
                                   hop_length=hop_length, n_fft=n_fft), -1)
 
 

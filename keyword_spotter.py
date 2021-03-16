@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 # type hints
-from typing import ClassVar, Union, Optional, NoReturn
+from typing import ClassVar, Union, Optional, NoReturn, BinaryIO
 
 # operation system
 from os import PathLike
@@ -43,7 +43,7 @@ class KeywordSpotterType:
         """Updates instance by reloading the classifier field."""
         self.__init__()
 
-    def predict(self, file_path: Union[str, PathLike]) -> str:
+    def predict(self, file: Union[str, PathLike, BinaryIO]) -> str:
         """Predicts keyword spoken in file.
 
         Raises FileNotFoundError if no classifier is saved at
@@ -59,7 +59,7 @@ class KeywordSpotterType:
             else:
                 n_mfcc = self._classifier.input_shape[2]
 
-        features = to_features(file_path, n_mfcc=n_mfcc)
+        features = to_features(file, n_mfcc=n_mfcc)
         logits = self._classifier(tf.expand_dims(features, 0))[0]
 
         return CATEGORIES[int(tf.argmax(logits))]
