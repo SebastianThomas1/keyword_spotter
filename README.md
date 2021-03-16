@@ -20,7 +20,7 @@ Data mining, analysis, training and evaluation of the classifier:
 - [Predictive analysis](predictive_analysis.ipynb)
 
 Main development:
-- [Preprocessor](common/preprocessing.py)
+- [Preprocessing](common/preprocessing.py)
 - [Keyword Spotter](keyword_spotter.py)
 
 REST API:
