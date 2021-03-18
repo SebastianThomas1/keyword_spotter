@@ -29,6 +29,15 @@ REST API:
 - [Test client](client.py)
 
 
+## Future work
+
+- tune more hyperparameters
+- use class weights for training (we have imbalanced classes)
+- add background noise to the instances
+- use other form of data augmentation such as e.g time shifting
+- add a silence label
+- consider other classifier models
+
 
 ## References
 
