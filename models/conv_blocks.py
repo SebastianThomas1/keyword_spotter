@@ -49,6 +49,16 @@ class Conv1DBlock(Model):
         """Returns the result of a forward pass through this instance."""
         return self._max_pool(self._batch_normalization(self._conv(inputs)))
 
+    def compute_output_shape(self, input_shape: Tuple) -> Tuple:
+        conv_output_shape = self._conv.compute_output_shape(input_shape)
+        bn_output_shape = self._batch_normalization.compute_output_shape(
+            conv_output_shape
+        )
+        max_pool_output_shape = self._max_pool.compute_output_shape(
+            bn_output_shape
+        )
+        return max_pool_output_shape
+
     def get_config(self) -> dict:
         """Returns config data in form of a JSON-serializable dictionary."""
         conv_layer_config = self._conv.get_config()
@@ -94,6 +104,16 @@ class Conv2DBlock(Model):
     def call(self, inputs: tf.Tensor, training=None, mask=None) -> tf.Tensor:
         """Returns the result of a forward pass through this instance."""
         return self._max_pool(self._batch_normalization(self._conv(inputs)))
+
+    def compute_output_shape(self, input_shape: Tuple) -> Tuple:
+        conv_output_shape = self._conv.compute_output_shape(input_shape)
+        bn_output_shape = self._batch_normalization.compute_output_shape(
+            conv_output_shape
+        )
+        max_pool_output_shape = self._max_pool.compute_output_shape(
+            bn_output_shape
+        )
+        return max_pool_output_shape
 
     def get_config(self) -> dict:
         """Returns config data in form of a JSON-serializable dictionary."""
